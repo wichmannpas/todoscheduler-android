@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TodoScheduler</string>
+    <string name="client_url">https://todoscheduler.org</string>
 </resources>
