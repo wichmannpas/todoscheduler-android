@@ -4,12 +4,19 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private final Context context;
     private final int appWidgetId;
+    JSONArray incompletelyScheduledTasks;
 
     TaskWidgetViewsFactory(Context context, Intent intent) {
         this.context = context;
@@ -32,14 +39,27 @@ public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
 
     @Override
     public int getCount() {
-        return 42;
+       getIncompletelyScheduledTasks();
+        if (this.incompletelyScheduledTasks == null) {
+            return 0;
+        }
+        return this.incompletelyScheduledTasks.length();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews row = new RemoteViews(
                 this.context.getPackageName(), R.layout.task_widget_list_item);
-        row.setTextViewText(R.id.task_text, "foobar");
+
+        String taskName;
+        try {
+            JSONObject task = this.incompletelyScheduledTasks.getJSONObject(position);
+
+            taskName = task.getString("name");
+        } catch (JSONException e) {
+            taskName = "*ERROR*";
+        }
+        row.setTextViewText(R.id.task_text, taskName);
 
         return row;
     }
@@ -62,5 +82,19 @@ public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
     @Override
     public boolean hasStableIds() {
         return false;
+    }
+
+    private void getIncompletelyScheduledTasks() {
+        SharedPreferences sharedPreferences = this.context.getSharedPreferences(
+                "taskData", Context.MODE_PRIVATE);
+
+        try {
+            this.incompletelyScheduledTasks = new JSONArray(
+                    sharedPreferences.getString("incompletelyScheduledTasks", "[]")
+            );
+        } catch (JSONException e) {
+            Log.e("api", "failed to extract incompletely scheduled tasks.");
+            e.printStackTrace();
+        }
     }
 }

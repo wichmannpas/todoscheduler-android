@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TodoScheduler</string>
     <string name="client_url">https://todoscheduler.org</string>
+    <string name="api_url">https://api.todoscheduler.org</string>
     <string name="add_widget">Add widget</string>
     <string name="refresh">Refresh</string>
     <string name="open_tasks">Open Tasks</string>

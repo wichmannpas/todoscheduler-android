@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
-                "auth", Context.MODE_PRIVATE);
-        String storedAuthToken = sharedPreferences.getString("authToken", "null");
-        System.out.println("Main sees auth " + storedAuthToken);
-
         WebView webView = findViewById(R.id.webView);
 
         WebSettings webSettings = webView.getSettings();
@@ -36,6 +32,24 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebViewClient(new TodoSchedulerWebViewClient());
 
         webView.loadUrl(getString(R.string.client_url));
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                        "auth", Context.MODE_PRIVATE);
+                String storedAuthToken = sharedPreferences.getString("authToken", "null");
+
+                if (storedAuthToken.equals("null")) {
+                    return;
+                }
+
+                Log.v("auth", "fetching incompletely scheduled tasks");
+                ApiClient client = new ApiClient(
+                        getApplicationContext(), getString(R.string.api_url), storedAuthToken);
+                client.fetchIncompletelyScheduledTasks();
+            }
+        });
     }
 
     private class TodoSchedulerWebViewClient extends WebViewClient {
