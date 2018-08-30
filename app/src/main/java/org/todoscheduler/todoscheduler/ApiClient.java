@@ -1,6 +1,9 @@
 package org.todoscheduler.todoscheduler;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -44,6 +47,7 @@ public class ApiClient {
 
                 editor.putString("incompletelyScheduledTasks", response.toString());
                 editor.apply();
+                ApiClient.this.updateWidgets();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -59,5 +63,15 @@ public class ApiClient {
                 return headers;
             }
         });
+    }
+
+    private void updateWidgets() {
+        Intent intent = new Intent(context, TaskWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] widgetIds = appWidgetManager.getAppWidgetIds(
+                new ComponentName(context, TaskWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
+        context.sendBroadcast(intent);
     }
 }

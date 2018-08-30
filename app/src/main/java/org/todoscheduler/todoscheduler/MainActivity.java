@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                Log.v("auth", "fetching incompletely scheduled tasks");
                 ApiClient client = new ApiClient(
                         getApplicationContext(), getString(R.string.api_url), storedAuthToken);
                 client.fetchIncompletelyScheduledTasks();

@@ -23,9 +23,10 @@ public class TaskWidgetProvider extends AppWidgetProvider {
         views.setRemoteAdapter(R.id.task_list, serviceIntent);
         views.setEmptyView(R.id.task_list, R.id.empty_task_list);
 
-        // TODO: refresh data instead of launching MainActivity
-        Intent refreshIntent = new Intent(context, MainActivity.class);
-        PendingIntent pendingRefreshIntent = PendingIntent.getActivity(
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.task_list);
+
+        Intent refreshIntent = new Intent(context, RefreshWidgetService.class);
+        PendingIntent pendingRefreshIntent = PendingIntent.getService(
                 context, 0, refreshIntent, 0);
         views.setOnClickPendingIntent(R.id.refresh_button, pendingRefreshIntent);
 
