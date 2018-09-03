@@ -73,7 +73,15 @@ public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
         if (this.scheduleToday == null || this.scheduleTomorrow == null) {
             return 0;
         }
-        return 2 + this.scheduleToday.size() + this.scheduleTomorrow.size();
+        int todayCount = this.scheduleToday.size();
+        if (todayCount == 0) {
+            todayCount = 1;
+        }
+        int tomorrowCount = this.scheduleTomorrow.size();
+        if (tomorrowCount == 0) {
+            tomorrowCount = 1;
+        }
+        return 2 + todayCount + tomorrowCount;
     }
 
     @Override
@@ -108,6 +116,9 @@ public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
         int todayHeadline = 0;
         int todayStart = todayHeadline + 1;
         int tomorrowHeadline = todayStart + this.scheduleToday.size();
+        if (this.scheduleToday.size() == 0) {
+            tomorrowHeadline += 1;
+        }
         int tomorrowStart = tomorrowHeadline + 1;
 
         RemoteViews row;
@@ -128,16 +139,22 @@ public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
             row.setTextViewText(R.id.headline, headline);
         } else {
             // content row
-            row = new RemoteViews(
-                    this.context.getPackageName(), R.layout.task_widget_schedule_list_item);
-
             List<JSONObject> list = this.scheduleToday;
             if (position >= tomorrowStart) {
+                // tomorrow
                 position -= tomorrowStart;
                 list = this.scheduleTomorrow;
             } else {
+                // today
                 position -= todayStart;
             }
+            if (list.size() == 0) {
+                return new RemoteViews(
+                        this.context.getPackageName(), R.layout.task_widget_schedule_list_empty);
+            }
+
+            row = new RemoteViews(
+                    this.context.getPackageName(), R.layout.task_widget_schedule_list_item);
 
             String taskName;
             double duration = 0;
@@ -171,7 +188,7 @@ public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 
     @Override

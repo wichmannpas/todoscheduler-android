@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/task_widget_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="#9063329c"
+    android:padding="@dimen/widget_margin">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/task_text"
+        android:textSize="@dimen/widget_text_size"
+        android:textStyle="italic"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="match_parent"
+        android:text="@string/nothing_scheduled" />
+
+</LinearLayout>
