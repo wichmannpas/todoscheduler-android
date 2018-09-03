@@ -253,10 +253,11 @@ public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
                 try {
                     boolean o1Finished = o1.getBoolean("finished");
                     boolean o2Finished = o2.getBoolean("finished");
+                    // we display finished task chunks below unfinished task chunks in the widget
                     if (o1Finished && !o2Finished) {
-                        return -1;
-                    } else if (o2Finished && !o1Finished) {
                         return 1;
+                    } else if (o2Finished && !o1Finished) {
+                        return -1;
                     }
 
                     // equal finished state, compare day order
