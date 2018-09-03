@@ -9,16 +9,19 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 ApiClient client = new ApiClient(
                         getApplicationContext(), getString(R.string.api_url), storedAuthToken);
                 client.fetchIncompletelyScheduledTasks();
-                client.fetchTaskChunks();
             }
         });
     }
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             view.loadUrl("javascript:console.log('ANDROID:authToken:' + localStorage.getItem('authToken'));");
+
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
