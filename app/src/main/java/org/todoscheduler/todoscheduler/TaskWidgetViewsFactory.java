@@ -173,7 +173,6 @@ public class TaskWidgetViewsFactory implements RemoteViewsService.RemoteViewsFac
                 taskName = "*ERROR*";
             }
 
-            System.out.println(taskName);
             row.setTextViewText(R.id.task_text, taskName);
             row.setTextViewText(R.id.duration, Double.toString(duration) + "h");
         }
