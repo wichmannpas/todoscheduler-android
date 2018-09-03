@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setAppCachePath(getCacheDir().getAbsolutePath());
+        webSettings.setAllowFileAccess(true);
 
         webView.setWebChromeClient(new TodoSchedulerWebChromeClient());
         webView.setWebViewClient(new TodoSchedulerWebViewClient());
