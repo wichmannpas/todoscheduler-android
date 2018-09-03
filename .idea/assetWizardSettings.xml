@@ -23,6 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+                                                <entry key="scalingPercent" value="72" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -33,6 +34,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="ffe407" />
                                       <entry key="foregroundImage" value="$USER_HOME$/todoscheduler.svg.png" />
                                     </map>
                                   </option>
