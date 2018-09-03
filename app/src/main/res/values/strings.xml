@@ -6,4 +6,6 @@
     <string name="refresh">Refresh</string>
     <string name="open_tasks">Open Tasks</string>
     <string name="no_open_tasks">No open tasks.</string>
+    <string name="no_scheduled_tasks">No scheduled tasks chunks for today or tomorrow.</string>
+    <string name="schedule">Schedule</string>
 </resources>

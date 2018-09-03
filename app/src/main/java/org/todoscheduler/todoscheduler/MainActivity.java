@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 ApiClient client = new ApiClient(
                         getApplicationContext(), getString(R.string.api_url), storedAuthToken);
                 client.fetchIncompletelyScheduledTasks();
+                client.fetchTaskChunks();
             }
         });
     }
