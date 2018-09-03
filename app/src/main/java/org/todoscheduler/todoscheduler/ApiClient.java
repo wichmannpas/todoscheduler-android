@@ -52,7 +52,7 @@ public class ApiClient {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("api", error.getMessage());
+                Log.e("api", "fetching data failed. are you authenticated?");
             }
         }) {
             @Override
